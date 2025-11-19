@@ -1,3 +1,8 @@
+"""
+負責管遊戲畫面，更新玩家與敵人
+還有 camera 之類雜七雜八的東西
+"""
+
 import pygame as pg
 import threading
 import time
@@ -74,7 +79,7 @@ class GameScene(Scene):
             
             camera = self.game_manager.player.camera
             '''
-            camera = self.game_manager.player.camera # This is  freaking correct now
+            camera = self.game_manager.player.camera # This is freaking correct now
             self.game_manager.current_map.draw(screen, camera)
             self.game_manager.player.draw(screen, camera)
         else:

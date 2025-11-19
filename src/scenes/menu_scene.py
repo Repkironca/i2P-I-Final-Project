@@ -1,3 +1,8 @@
+"""
+你自己創的那個
+負責管設定按鈕
+"""
+
 import pygame as pg
 
 from src.utils import GameSettings
