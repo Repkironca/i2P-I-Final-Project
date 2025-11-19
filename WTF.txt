@@ -1,0 +1,4 @@
+C:\Users\aaron\Desktop\Final_Project\src\entities\entity.py
+為什麼突然回傳 int 啊，有時候 int 有時候 float 真的莫名其妙誒
+
+BUG : 傳送飄移
