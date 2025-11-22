@@ -80,8 +80,15 @@ class GameManager:
         
     def save(self, path: str) -> None:
         try:
+            """
+            不是哥們，誰教你直接這樣打開的
+            你說有沒有一種可能，這樣一但你的 try 被打掉
+            因為你用 with open(path, 'w')
+            會直接把檔案洗掉 ==
+            """
+            original_data = self.to_dict()
             with open(path, "w") as f:
-                json.dump(self.to_dict(), f, indent=2)
+                json.dump(original_data, f, indent=2)
             Logger.info(f"Game saved to {path}")
         except Exception as e:
             Logger.warning(f"Failed to save game: {e}")

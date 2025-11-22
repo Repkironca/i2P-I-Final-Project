@@ -35,6 +35,8 @@ class GameScene(Scene):
     setting_button: Button
     close_button: Button
     shutdown_button: Button # 關掉遊戲的那個
+    save_button: Button
+    load_button: Button
 
     # Checkboxs
     trash_checkbox: Checkbox
@@ -144,6 +146,26 @@ class GameScene(Scene):
             on_click = self.shutdown_game
         )
 
+        # 這坨是 Save Button
+        self.save_button = Button(
+            img_path="UI/button_save.png",
+            img_hovered_path="UI/button_save_hover.png",
+            x=center_x // 4,
+            y=int(start_y * 2),
+            width=100, height=100,
+            on_click=self.save_game
+        )
+
+        # 這坨是 Load Button
+        self.load_button = Button(
+            img_path="UI/button_load.png",
+            img_hovered_path="UI/button_load_hover.png",
+            x=center_x // 4 + 120,
+            y=int(start_y * 2),
+            width=100, height=100,
+            on_click=self.load_game
+        )
+
     # 把 overlay 叫出來和關掉用的 func.
     def set_overlay(self, rep: str) -> None:
         assert (rep in ["Nothing", "Setting", "Bag"]), f"set_overlay 被丟了奇怪的東西進來：{rep}"
@@ -171,6 +193,21 @@ class GameScene(Scene):
         pg.quit()
         sys.exit()
 
+    def save_game(self):
+        sound_manager.play_sound("huh.wav")
+        self.game_manager.save("saves/game0.json")
+        print("Game Saved!") # 誒你之後有空可以移到遊戲畫面上
+
+    def load_game(self):
+        sound_manager.play_sound("huh.wav")
+        new_manager = GameManager.load("saves/game0.json")
+        
+        if new_manager is not None: # PEP-8 說不要寫 != None
+            self.game_manager = new_manager
+            print("Game Loaded!")
+        else:
+            print("Failed to load game")
+
     @override
     def enter(self) -> None:
         sound_manager.play_bgm("RBY 103 Pallet Town.ogg")
@@ -194,7 +231,9 @@ class GameScene(Scene):
                 self.trash_checkbox.update(dt)
                 self.volume_slider.update(dt)
                 self.shutdown_button.update(dt)
-                
+                self.save_button.update(dt)
+                self.load_button.update(dt)
+
                 current_vol = self.volume_slider.get_value()
                 GameSettings.AUDIO_VOLUME = current_vol
                 if sound_manager.current_bgm:
@@ -318,6 +357,8 @@ class GameScene(Scene):
         self.trash_checkbox.draw(screen)
         self.volume_slider.draw(screen)
         self.shutdown_button.draw(screen)
+        self.save_button.draw(screen)
+        self.load_button.draw(screen)
 
         # trash_checkbox
         tcb_rect = self.trash_checkbox.rect
